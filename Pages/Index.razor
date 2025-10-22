@@ -1,0 +1,10 @@
+@page "/"
+@inject NavigationManager Navigation
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Når appen starter, send brugeren direkte til Messagepage
+        Navigation.NavigateTo("/Messagepage", true);
+    }
+}

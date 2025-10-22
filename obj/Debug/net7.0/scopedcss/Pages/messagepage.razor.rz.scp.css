@@ -1,0 +1,58 @@
+/* Styles til hele listen */
+ul.support-messages[b-q91er578rx] {
+    list-style: none;       /* Fjerner standard bullets */
+    padding: 0;
+    margin: 0;
+}
+
+/* Styles til hvert element */
+ul.support-messages li[b-q91er578rx] {
+    border: 1px solid #ccc;     /* Let kant */
+    padding: 10px;              /* Indvendig luft */
+    margin-bottom: 8px;         /* Luft mellem elementer */
+    border-radius: 5px;         /* Bløde hjørner */
+    background-color: #f9f9f9;  /* Lys baggrund for kontrast */
+}
+
+/* Formularen */
+.form-group[b-q91er578rx] {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 400px;
+    margin-bottom: 15px;
+}
+
+.form-control[b-q91er578rx] {
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-add[b-q91er578rx] {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 120px;
+}
+
+.btn-add:hover[b-q91er578rx] {
+    background-color: #0056b3;
+}
+
+/* Liste med beskeder */
+ul.support-messages[b-q91er578rx] {
+    list-style: none;
+    padding: 0;
+}
+
+ul.support-messages li[b-q91er578rx] {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
