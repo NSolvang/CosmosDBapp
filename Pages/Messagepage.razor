@@ -1,0 +1,32 @@
+@page "/Messagepage"
+@using CosmosDBapp.Model
+@using CosmosDBapp.Service
+@inject SupportService SupportService
+
+<h3>Alle support beskeder</h3>
+
+<ul class="support-messages">
+    @foreach (var msg in messages)
+    {
+        <li>
+            <strong>@msg.Contact.Name</strong> - @msg.Contact.Email <br />
+            @msg.Description <br />
+            <em>@msg.Category</em>
+        </li>
+    }
+</ul>
+
+@code {
+    private SupportMessage newMessage = new SupportMessage
+    {
+        Contact = new Contact(),
+        Category = "Ukendt" // default, så partition key aldrig er tom
+    };
+    
+    private List<SupportMessage> messages = new List<SupportMessage>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        messages = await SupportService.GetAllMessagesAsync();
+    }
+}

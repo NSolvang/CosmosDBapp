@@ -1,0 +1,70 @@
+@page "/AddMessage"
+@using CosmosDBapp.Model
+@using CosmosDBapp.Service
+@inject SupportService SupportService
+
+
+<h3>Tilføj besked</h3>
+
+<EditForm Model="newMessage" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <InputText @bind-Value="newMessage.Contact.Name" placeholder="Navn" class="form-control" />
+        <ValidationMessage For="@(() => newMessage.Contact.Name)" />
+
+        <InputText @bind-Value="newMessage.Contact.Email" placeholder="Email" class="form-control" />
+        <ValidationMessage For="@(() => newMessage.Contact.Email)" />
+
+        <InputText @bind-Value="newMessage.Contact.Phone" placeholder="Telefon" class="form-control" />
+        <ValidationMessage For="@(() => newMessage.Contact.Phone)" />
+
+        <InputTextArea @bind-Value="newMessage.Description" placeholder="Beskrivelse" class="form-control" />
+        <InputText @bind-Value="newMessage.Category" placeholder="Kategori" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn-add">Tilføj besked.</button>
+</EditForm>
+
+
+@code {
+    
+    private SupportMessage newMessage = new SupportMessage
+    {
+        Contact = new Contact(),
+        Category = "Ukendt" // default, så partition key aldrig er tom
+    };
+    
+    private List<SupportMessage> messages = new List<SupportMessage>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        messages = await SupportService.GetAllMessagesAsync();
+    }
+    
+    private async Task HandleSubmit()
+    {
+        newMessage.Id = Guid.NewGuid().ToString();
+        newMessage.DateTime = DateTime.UtcNow;
+
+        // Sørg for contact er initialiseret
+        newMessage.Contact ??= new Contact();
+        newMessage.Contact.Name ??= "";
+        newMessage.Contact.Email ??= "";
+        newMessage.Contact.Phone ??= "";
+
+        // Sørg for category er sat (partition key)
+        if (string.IsNullOrWhiteSpace(newMessage.Category))
+            newMessage.Category = "Ukendt";
+
+        await SupportService.AddSupportMessageAsync(newMessage);
+        messages.Add(newMessage);
+
+        // Reset form
+        newMessage = new SupportMessage
+        {
+            Contact = new Contact(),
+            Category = "Ukendt"
+        };
+    }
+}
